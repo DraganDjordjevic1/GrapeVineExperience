@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GrapeVineExperienceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GrapeVineExperience.dbo.Booking' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="TourName" />
+            <PropertyRef Name="eventDate" />
+            <PropertyRef Name="Payment" />
+            <PropertyRef Name="dateBooked" />
+          </Key>
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="TourName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="eventDate" Type="datetime" Nullable="false" />
+          <Property Name="Payment" Type="money" Nullable="false" />
+          <Property Name="dateBooked" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tour">
+          <Key>
+            <PropertyRef Name="TourName" />
+          </Key>
+          <Property Name="TourName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GrapeVineExperience.dbo.TourEvent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TourEvent">
+          <Key>
+            <PropertyRef Name="TourName" />
+            <PropertyRef Name="eventDate" />
+            <PropertyRef Name="eventFee" />
+          </Key>
+          <Property Name="TourName" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="eventDate" Type="datetime" Nullable="false" />
+          <Property Name="eventFee" Type="money" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Booking_ClientID">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKING_TourName">
+          <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour">
+              <PropertyRef Name="TourName" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="TourName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TourEventName">
+          <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
+          <End Role="TourEvent" Type="Self.TourEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour">
+              <PropertyRef Name="TourName" />
+            </Principal>
+            <Dependent Role="TourEvent">
+              <PropertyRef Name="TourName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GrapeVineExperienceModelStoreContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tour" EntityType="Self.Tour" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Booking" EntityType="Self.Booking" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Booking].[ClientID] AS [ClientID], 
+    [Booking].[TourName] AS [TourName], 
+    [Booking].[eventDate] AS [eventDate], 
+    [Booking].[Payment] AS [Payment], 
+    [Booking].[dateBooked] AS [dateBooked]
+    FROM [dbo].[Booking] AS [Booking]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TourEvent" EntityType="Self.TourEvent" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TourEvent].[TourName] AS [TourName], 
+    [TourEvent].[eventDate] AS [eventDate], 
+    [TourEvent].[eventFee] AS [eventFee]
+    FROM [dbo].[TourEvent] AS [TourEvent]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Booking_ClientID" Association="Self.FK_Booking_ClientID">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKING_TourName" Association="Self.FK_BOOKING_TourName">
+            <End Role="Tour" EntitySet="Tour" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TourEventName" Association="Self.FK_TourEventName">
+            <End Role="Tour" EntitySet="Tour" />
+            <End Role="TourEvent" EntitySet="TourEvent" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GrapeVineExperienceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_Booking_ClientID" FromRole="Client" ToRole="Booking" />
+        </EntityType>
+        <EntityType Name="Tour">
+          <Key>
+            <PropertyRef Name="TourName" />
+          </Key>
+          <Property Name="TourName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK_BOOKING_TourName" FromRole="Tour" ToRole="Booking" />
+          <NavigationProperty Name="TourEvents" Relationship="Self.FK_TourEventName" FromRole="Tour" ToRole="TourEvent" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="TourName" />
+            <PropertyRef Name="eventDate" />
+            <PropertyRef Name="Payment" />
+            <PropertyRef Name="dateBooked" />
+          </Key>
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="TourName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="eventDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Payment" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="dateBooked" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_Booking_ClientID" FromRole="Booking" ToRole="Client" />
+          <NavigationProperty Name="Tour" Relationship="Self.FK_BOOKING_TourName" FromRole="Booking" ToRole="Tour" />
+        </EntityType>
+        <EntityType Name="TourEvent">
+          <Key>
+            <PropertyRef Name="TourName" />
+            <PropertyRef Name="eventDate" />
+            <PropertyRef Name="eventFee" />
+          </Key>
+          <Property Name="TourName" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="eventDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="eventFee" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Tour" Relationship="Self.FK_TourEventName" FromRole="TourEvent" ToRole="Tour" />
+        </EntityType>
+        <Association Name="FK_Booking_ClientID">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BOOKING_TourName">
+          <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour">
+              <PropertyRef Name="TourName" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="TourName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TourEventName">
+          <End Role="Tour" Type="Self.Tour" Multiplicity="1" />
+          <End Role="TourEvent" Type="Self.TourEvent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tour">
+              <PropertyRef Name="TourName" />
+            </Principal>
+            <Dependent Role="TourEvent">
+              <PropertyRef Name="TourName" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GrapeVineExperienceEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Tours" EntityType="Self.Tour" />
+          <EntitySet Name="Bookings" EntityType="Self.Booking" />
+          <EntitySet Name="TourEvents" EntityType="Self.TourEvent" />
+          <AssociationSet Name="FK_Booking_ClientID" Association="Self.FK_Booking_ClientID">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BOOKING_TourName" Association="Self.FK_BOOKING_TourName">
+            <End Role="Tour" EntitySet="Tours" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TourEventName" Association="Self.FK_TourEventName">
+            <End Role="Tour" EntitySet="Tours" />
+            <End Role="TourEvent" EntitySet="TourEvents" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GrapeVineExperienceModelStoreContainer" CdmEntityContainer="GrapeVineExperienceEntities">
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="GrapeVineExperienceModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tours">
+            <EntityTypeMapping TypeName="GrapeVineExperienceModel.Tour">
+              <MappingFragment StoreEntitySet="Tour">
+                <ScalarProperty Name="TourName" ColumnName="TourName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="GrapeVineExperienceModel.Booking">
+              <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="TourName" ColumnName="TourName" />
+                <ScalarProperty Name="eventDate" ColumnName="eventDate" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+                <ScalarProperty Name="dateBooked" ColumnName="dateBooked" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TourEvents">
+            <EntityTypeMapping TypeName="GrapeVineExperienceModel.TourEvent">
+              <MappingFragment StoreEntitySet="TourEvent">
+                <ScalarProperty Name="TourName" ColumnName="TourName" />
+                <ScalarProperty Name="eventDate" ColumnName="eventDate" />
+                <ScalarProperty Name="eventFee" ColumnName="eventFee" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
