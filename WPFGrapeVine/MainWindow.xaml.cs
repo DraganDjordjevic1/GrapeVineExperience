@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPFClassLibrary;
 
 namespace WPFGrapeVine
 {
@@ -21,7 +22,7 @@ namespace WPFGrapeVine
       public partial class MainWindow : Window
       {
             APIClient apiClient;
-            
+            List<TourEvents> tourevents;
 
             public MainWindow()
             {
@@ -29,20 +30,30 @@ namespace WPFGrapeVine
                   DataContext = this;
             }
 
-            private void Window_Loaded(object sender, RoutedEventArgs e)
+            private async void Window_Loaded(object sender, RoutedEventArgs e)
             {
                   apiClient = new APIClient();
 
                   // get all users in DB
-                  users = await apiClient.GetUsers();
+                  tourevents = await apiClient.GetTourEvents();
 
-                  // select only students
-                  var students = from user in users
-                                 where user.UserRole == "Student"
-                                 select user;
+                  var toureventsdata = from eventtour in tourevents                                      
+                                    select eventtour;
 
                   // set listbox item source to student as could not get XAML binding to work...
-                  studentsLbx.ItemsSource = students;
+                  toureventlistbox.ItemsSource = toureventsdata;
+            }
+
+            private void Button_Click(object sender, RoutedEventArgs e)
+            {
+                  Bookings bookings = new Bookings((TourEvents)(toureventlistbox.SelectedItem));
+                  this.Hide();
+                  bookings.Show();
+
+                  //all the data for visibility <Run Text="{Binding EventDate}"></Run>  
+                       // < Run Text = "{Binding Eventfee}" ></ Run >
+
+
             }
       }
 }

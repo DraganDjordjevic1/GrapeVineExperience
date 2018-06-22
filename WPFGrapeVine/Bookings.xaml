@@ -1,0 +1,33 @@
+﻿<Window x:Class="WPFGrapeVine.Bookings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFGrapeVine"
+        mc:Ignorable="d"
+        Title="Bookings" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="6*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold"></TextBlock>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Margin="30" MinWidth="200">
+            <Label>Tour Name</Label>
+            <TextBox x:Name="firstNameTx" Text="{Binding Tourname}"></TextBox>
+            <Label>Event Date</Label>
+            <TextBox x:Name="lastNameTx" Text="{Binding EventDate}"></TextBox>
+            <Label>Event Fee</Label>
+            <TextBox x:Name="emailTx" Text="{Binding Eventfee}"></TextBox>
+
+        </StackPanel>
+    </Grid>
+</Window>

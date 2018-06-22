@@ -7,22 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="700" Loaded="Window_Loaded">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="321*" />
-            <RowDefinition Height="98*" />
-        </Grid.RowDefinitions>
-        <StackPanel Margin="10,0,354,10" Grid.Row="1">
-            <Button Content="Bookings" HorizontalAlignment="Left" Margin="40,42,0,0" VerticalAlignment="Top" Width="105" Height="35"/>
-        </StackPanel>
-        <StackPanel>
-            <ListBox Height="318" x:Name="toureventlistbox" ItemsSource="{Binding Tourevent}" Margin="57,0,44,0">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding TourName}"><Run Text="{Binding eventFee}"/><Run Text=" "/><Run Text="{Binding eventDate}"/></TextBlock>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
+
+        <Button Content="Bookings" HorizontalAlignment="Left" Margin="78,339,0,0" VerticalAlignment="Top" Width="105" Height="35" Click="Button_Click"/>
+        <ListBox HorizontalAlignment="Left" Height="217" Margin="159,37,0,0" VerticalAlignment="Top" Width="348" x:Name="toureventlistbox"  ItemsSource="{Binding toureventsdata}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding toureventsdata}">
+                        <Run Text="{Binding Tourname}"></Run>
+                        
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
     </Grid>
 </Window>
